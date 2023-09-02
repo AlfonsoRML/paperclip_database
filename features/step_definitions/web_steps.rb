@@ -24,6 +24,13 @@ require 'cgi'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
 
+# Fix undefined method `escape' for URI:Module
+module URI
+  def self.escape(url)
+    encode_www_form_component(url)
+  end
+end
+
 module WithinHelpers
   def with_scope(locator)
     locator ? within(*selector_for(locator)) { yield } : yield
